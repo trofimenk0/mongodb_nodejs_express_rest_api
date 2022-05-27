@@ -1,13 +1,10 @@
-const { request } = require('express'); // хз що за тема, я цього не додавав, воно автоматично додалось
-const { response } = require('express'); // хз що за тема, я цього не додавав, воно автоматично додалось
+const { request } = require('express');
+const { response } = require('express');
 const express = require('express');
 const res = require('express/lib/response');
 const router = express.Router();
 const Post = require('../models/Post');
 
-/**
- * Get all the posts
- */
 router.get('/', async (request, response) => {
     try {
         const posts = await Post.find();
@@ -17,9 +14,6 @@ router.get('/', async (request, response) => {
     }
 });
 
-/**
- * Adds one post
- */
 router.post('/', async (request, response) => {
     const post = new Post({
         title: request.body.title,
@@ -34,9 +28,6 @@ router.post('/', async (request, response) => {
     }
 });
 
-/**
- * Gets back a specific post
- */
 router.get('/:postId', async (request, response) => {
     try {
         const post = await Post.findById(request.params.postId);
@@ -46,9 +37,6 @@ router.get('/:postId', async (request, response) => {
     }
 });
 
-/**
- * Delete a specific post
- */
 router.delete('/:postId', async (request, response) => {
     try {
         const postRemoved = await Post.remove({ _id: request.params.postId });
@@ -58,9 +46,6 @@ router.delete('/:postId', async (request, response) => {
     }
 });
 
-/**
- * Update a specific post
- */
 router.patch('/:postId', async (request, response) => {
     try {
         const postUpdated = await Post.updateOne(
