@@ -1,64 +1,62 @@
-const { request } = require('express');
-const { response } = require('express');
 const express = require('express');
-const res = require('express/lib/response');
 const router = express.Router();
 const Post = require('../models/Post');
 
-router.get('/', async (request, response) => {
+router.get('/', async (req, res) => {
     try {
         const posts = await Post.find();
-        response.json(posts);
+        res.json(posts);
     } catch (err) {
-        response.json({ message: err });
+        res.json({ message: err });
     }
 });
 
-router.post('/', async (request, response) => {
+router.post('/', async (req, res) => {
     const post = new Post({
-        title: request.body.title,
-        description: request.body.description,
+        title: req.body.title,
+        description: req.body.description,
     });
 
     try {
         const postSaved = await post.save();
-        response.json(postSaved);
+        res.json(postSaved);
     } catch (err) {
-        response.json({ message: err });
+        res.json({ message: err });
     }
 });
 
-router.get('/:postId', async (request, response) => {
+router.get('/:postId', async (req, res) => {
     try {
-        const post = await Post.findById(request.params.postId);
-        response.json(post);
+        const post = await Post.findById(req.params.postId);
+        res.json(post);
     } catch (err) {
-        response.json({ message: err });
+        res.json({ message: err });
     }
 });
 
-router.delete('/:postId', async (request, response) => {
+router.delete('/:postId', async (req, res) => {
     try {
-        const postRemoved = await Post.remove({ _id: request.params.postId });
-        response.json(postRemoved);
+        const postRemoved = await Post.remove({ _id: req.params.postId });
+        res.json(postRemoved);
     } catch (err) {
-        response.json({ message: err });
+        res.json({ message: err });
     }
 });
 
-router.put('/:postId', async (request, response) => {
+router.put('/:postId', async (req, res) => {
     try {
         const postUpdated = await Post.updateOne(
-            { _id: request.params.postId },
+            { _id: req.params.postId },
             {
                 $set: {
-                    title: request.body.title,
+                    title: req.body.title,
                 }
             },
         );
-        response.json(postUpdated);
+
+        res.json(postUpdated);
     } catch (err) {
-        response.json({ message: err });
+        res.json({ message: err });
     }
 });
 

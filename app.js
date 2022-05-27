@@ -1,4 +1,3 @@
-const { response } = require('express');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -11,8 +10,8 @@ app.use(bodyParser.json());
 const postsRoute = require('./routes/posts');
 app.use('/posts', postsRoute);
 
-app.get('/', (request, response) => {
-    response.send('We are on home!');
+app.get('/', (req, res) => {
+    res.send('We are on home!');
 });
 
 mongoose.connect(
